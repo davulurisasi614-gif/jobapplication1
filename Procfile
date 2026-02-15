@@ -1,0 +1,3 @@
+web: gunicorn jobapplication.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --log-file -
+web: gunicorn jobapplication.wsgi:application --log-file -
+release: python manage.py migrate
