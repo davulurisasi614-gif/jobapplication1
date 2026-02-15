@@ -1,0 +1,32 @@
+# Render manifest for Alexa / ProJobs
+# This file configures a web service and a managed PostgreSQL database on Render.
+# After you push to GitHub and connect the repo to Render, Render will use these settings.
+
+services:
+  - type: web
+    name: ProJobs-Web
+    env: python
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn jobapplication.wsgi:application"
+    autoDeploy: true
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        # Leave value blank here; set this in the Render dashboard (for security)
+        value: ""
+      - key: ALLOWED_HOSTS
+        value: ""
+
+databases:
+  - name: projobs-db
+    plan: free
+    region: oregon
+
+# Notes:
+# - After pushing this repo to GitHub, connect the repo in Render and create the service.
+# - Set SECRET_KEY and ALLOWED_HOSTS in the Render dashboard's Environment section.
+# - Render will set DATABASE_URL automatically when the managed database is created.
