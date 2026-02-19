@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 from decouple import config # type: ignore
 import dj_database_url
+from dj_database_url import parse as db_url
+
 
 # --------------------------------------------------
 # BASE DIR
@@ -73,8 +75,10 @@ WSGI_APPLICATION = 'jobapplication.wsgi.application'
 # DATABASE (LOCAL MYSQL)
 # --------------------------------------------------
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+    'default': config(
+        'DATABASE_URL',
+        default='mysql://root:Sasi@1234@localhost:3306/jobapplication',
+        cast=db_url
     )
 }
 
